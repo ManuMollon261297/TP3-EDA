@@ -1,8 +1,10 @@
 #include "simulation.h"
 #include <stdio.h>
+#include <math.h>
 
 
-#define MAX_ANGLE 360
+#define MAX_ANGLE	360
+#define PI	3.14159265359	
 
 // Simulation Managment
 
@@ -22,10 +24,35 @@ robotType * createRobot(unsigned int  count, unsigned int height, unsigned int w
 	}
 	return robots;
 }
-
-void moveRobot(robotType * robots, unsigned int height, unsigned int width)
+void moveRobot(robotType * robot, unsigned int height, unsigned int width)
 {
+	posType newpos;
+	double angle_deg = robot->angulo;
+	double angle_rad = deg2rad(robot->angulo);
+	newpos.x = (robot->pos.x) + cos(angle_rad);
+	newpos.y = (robot->pos.y) + sin(angle_rad);
+	if (((newpos.x) > width) || ((newpos.y) > height)||((newpos.x) < 0)||((newpos.y) < 0))
+	{
+		do
+		{
+			angle_deg = (double)(rand()) / ((double)(RAND_MAX / MAX_ANGLE));
+			double angle_rad = deg2rad(angle_deg);
+			newpos.x = (robot->pos.x) + cos(angle_rad);
+			newpos.y = (robot->pos.y) + sin(angle_rad);
+		} while (((newpos.x) > width) || ((newpos.y) > height) || ((newpos.x) < 0) || ((newpos.y) < 0));
+	}
+	robot->angulo = angle_deg;
+	robot->pos.x = newpos.x;
+	robot->pos.y = newpos.y;
+}
 
+void moveRobots(robotType * robots, unsigned int height, unsigned int width, unsigned int robotCount)
+{
+	int i = 0;
+	for (i = 0; i < robotCount; i++)
+	{
+		moveRobot(robots + i, height, width);
+	}
 }
 
 posType getRobotPos(robotType * robot)
@@ -44,6 +71,7 @@ pisoType * createFloor(unsigned int width, unsigned int height)
 {
 	pisoType * piso;
 	int i = 0;
+	int j = 0;
 	piso = malloc(sizeof(pisoType));
 	if (piso != NULL)
 	{
@@ -52,9 +80,12 @@ pisoType * createFloor(unsigned int width, unsigned int height)
 		piso->baldosas = malloc(sizeof(bool)*width*height);
 		if (piso->baldosas != NULL)
 		{
-			for (i = 0; i < (width*height); i++);
+			for (i = 0; i < width; i++)
 			{
-				*((piso->baldosas)+i) = false;
+				for (j=0; j < height; j++)
+				{
+					changeTileFromFloor(piso, i, j, false);
+				}
 			}
 		}
 		else
@@ -114,3 +145,11 @@ void destroySim(simType * simulation)
 	free(simulation->piso);
 	free(simulation->robots);
 }
+
+// Others
+
+double deg2rad(double angulo_deg)
+{
+	return ((angulo_deg*PI)/180.0);
+}
+

@@ -6,11 +6,17 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Others
+
+double deg2rad(double angulo_deg);
+
 // Robot Managment
 
 robotType * createRobot(unsigned int  count, unsigned int height, unsigned int width); //se asume que se inicializa el seed para el random
 
 void moveRobot(robotType * robots, unsigned int height, unsigned int width); //FALTA HACER
+
+void moveRobots(robotType * robots, unsigned int height, unsigned int width, unsigned int robotCount); //FALTA HACER
 
 posType getRobotPos(robotType * robot);
 
