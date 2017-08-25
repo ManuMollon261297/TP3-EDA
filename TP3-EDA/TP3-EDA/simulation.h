@@ -1,0 +1,35 @@
+#ifndef SIMULATION_H
+#define SIMULATION_H
+
+#include "config.h"
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Robot Managment
+
+robotType * createRobot(unsigned int  count, unsigned int height, unsigned int width); //se asume que se inicializa el seed para el random
+
+void moveRobot(robotType * robots, unsigned int height, unsigned int width); //FALTA HACER
+
+posType getRobotPos(robotType * robot);
+
+void destroyRobots(robotType * robot);
+
+// Floor Managment
+
+pisoType * createFloor(unsigned int width, unsigned int height);
+
+bool getTileFromFloor(pisoType * piso, unsigned int fila, unsigned int columna); //FIJARSE QUE HAGA PERFECTO EL MANJEO DE FIL/COL
+
+void changeTileFromFloor(pisoType * piso, unsigned int fila, unsigned int columna, bool value);
+
+void destroyFloor(pisoType * piso);
+
+// Simulation Managment
+
+simType * createSim(unsigned int robotCount, unsigned int height, unsigned int width);
+
+void destroySim(simType * simulation);
+
+#endif //SIMULATION_H
