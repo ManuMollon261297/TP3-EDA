@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <math.h>
 
-
 #define MAX_ANGLE	360
 #define PI	3.14159265359	
 
@@ -120,8 +119,8 @@ simType * createSim(unsigned int robotCount, unsigned int height, unsigned int w
 	sim = malloc(sizeof(simType));
 	if (sim != NULL)
 	{
-		sim->piso = createFloor(height, width);
-		sim->robots = createRobot(robotCount, width, height);
+		sim->piso = createFloor(width, height); // revisar
+		sim->robots = createRobot(robotCount, height, width);  //revisar
 		sim->height = height;
 		sim->width = width;
 		sim->robotCount = robotCount;
