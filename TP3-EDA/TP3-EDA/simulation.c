@@ -84,7 +84,7 @@ pisoType * createFloor(unsigned int width, unsigned int height)
 			{
 				for (j=0; j < height; j++)
 				{
-					changeTileFromFloor(piso, i, j, false);
+					changeTileFromFloor(piso, j, i, false);
 				}
 			}
 		}

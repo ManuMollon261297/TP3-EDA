@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include "simulation.h"
 
+#define HEIGHT	30
+#define WIDTH	20
+
+void printf_piso(pisoType * piso, int filas, int columnas);
 
 int main(int argc, char ** argv)
 {
@@ -23,24 +27,16 @@ int main(int argc, char ** argv)
 	coord = getRobotPos(robot);
 	printf("x: %f	y: %f", coord.x, coord.y);
 	destroyRobots(robot);
-
+	*/
 	//PRUEBA DE FUNCIONAMIENTO DE FLOOR MANAGMENT
 
 	pisoType * piso;
-	piso = createFloor(100, 100);
-	//NO ESTA INICIALIZANDO CON FALSE!
-	for (i = 0; i < 100 ; i++)
-	{
-		for (j = 0; j < 100; j++)
-		{
-			printf("%d	", getTileFromFloor(piso, i, j));
-		}
-		printf("\n");
-	}
-	changeTileFromFloor(piso, 0, 0, false);
-	printf("%d\n", getTileFromFloor(piso, 0, 0));
+	piso = createFloor(WIDTH, HEIGHT);
+	printf_piso(piso,HEIGHT,WIDTH);
+	changeTileFromFloor(piso, 2, 1, true);
+	printf_piso(piso,HEIGHT,WIDTH);
 	destroyFloor(piso);
-	*/
+	/*
 	//PRUEBA DE FUNCIONAMIENTO DEL SIMULATOR MANAGMENT
 	simType * simulation;
 	simulation = createSim(5, 100, 100);
@@ -98,5 +94,21 @@ int main(int argc, char ** argv)
 		printf("%f\n", (robot + i)->angulo);
 		printf("\n");
 	}
+	*/
+	getchar();
 	return 0;
+}
+
+void printf_piso(pisoType * piso, int filas, int columnas)
+{
+	int i, j;
+	for (i = 0; i < filas; i++)
+	{
+		for (j = 0; j < columnas; j++)
+		{
+			printf("%d ", getTileFromFloor(piso, i, j));
+		}
+		printf("\n");
+	}
+	printf("\n");
 }
