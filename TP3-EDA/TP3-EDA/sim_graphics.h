@@ -87,5 +87,11 @@ ejeCartesiano_t create_eje_cartesiano(unsigned int anchoTotal, unsigned int alto
 
 void print_eje_cartesiano(ejeCartesiano_t * eje, ALLEGRO_COLOR color, char * font_type);
 
+void print_wait_text(char * font_type, unsigned int alto, unsigned int ancho);
+
+void clear_display(void);
+
+void print_titulo(unsigned int width_baldosa, unsigned int height_baldosa, unsigned int alto, unsigned int ancho, char * font_type);
+
 #endif /* SIM_GRAPHICS_H */
 

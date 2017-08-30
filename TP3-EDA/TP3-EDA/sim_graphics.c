@@ -308,3 +308,29 @@ void print_eje_cartesiano(ejeCartesiano_t * eje, ALLEGRO_COLOR color, char * fon
     al_destroy_font(font);
 }
 
+void print_wait_text(char * font_type, unsigned int alto, unsigned int ancho)
+{
+	ALLEGRO_FONT * font = al_load_ttf_font(font_type, FONT_SIZE*3, 0);
+	ALLEGRO_COLOR  blanco = al_map_rgb(255, 255, 255);
+	const char * string1 = "Please Wait...";
+	const char * string2 = "Generating Graphic";
+	al_draw_textf(font, blanco, ancho / 4, alto / 3, 0, "%s", string1);
+	al_draw_textf(font, blanco, ancho / 4, alto / 2, 0, "%s", string2);
+	al_flip_display();
+	al_destroy_font(font);
+}
+
+void clear_display(void)
+{
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+}
+
+void print_titulo(unsigned int width_baldosa, unsigned int height_baldosa, unsigned int alto, unsigned int ancho, char * font_type)
+{
+	ALLEGRO_FONT * font = al_load_ttf_font(font_type, FONT_SIZE * 3, 0);
+	ALLEGRO_COLOR  blanco = al_map_rgb(255, 255, 255);
+	al_draw_textf(font, blanco, ancho / 4, 10, 0, "Graph for %dx%d floor", width_baldosa,height_baldosa);
+	al_flip_display();
+	al_destroy_font(font);
+}
+

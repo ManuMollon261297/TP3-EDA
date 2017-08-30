@@ -78,6 +78,8 @@ int main(int argc, char** argv)
                 
 				double results[TOPE_ROBOTS];
                 
+				print_wait_text(FONT_TYPE, DISP_H, DISP_W);
+
                 simType * sim;
                 
 				init_arr(results, TOPE_ROBOTS);
@@ -105,8 +107,10 @@ int main(int argc, char** argv)
 						found = true;
 					}
 				}
+				clear_display();
 				ejeCartesiano_t eje = create_eje_cartesiano(DISP_W, DISP_H, (double) r, (double) results[0], "robots", "time");
 				print_eje_cartesiano(&eje, al_color_name("white"), FONT_TYPE);
+				print_titulo(sim->width, sim->height, DISP_H, DISP_W, FONT_TYPE);
 				print_histograma_bar(results, &eje, al_color_name("blue"), al_color_name("hotpink"), FONT_TYPE, al_color_name("white"));
 				getchar();
 			}
