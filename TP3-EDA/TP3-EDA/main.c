@@ -1,5 +1,3 @@
-
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,8 +8,8 @@
 
 #define SIZE_LOOKUPTABLE 4
 
-#define TOPE_ANCHO 100
-#define TOPE_ALTO 70
+#define TOPE_ANCHO 5
+#define TOPE_ALTO 5
 #define TOPE_ROBOTS 50
 /*
  * 
@@ -32,7 +30,7 @@ int main(int argc, char** argv)
     {
         srand((unsigned int)time(NULL));
     
-        paramsType params = {2, 50, 3, 3}; ////////////////
+        paramsType params = {1, 40, 40, 5}; ////////////////
     
         sim_graphics_t sim_graphics;
         if(init_sim_graphics(&sim_graphics))
@@ -53,10 +51,10 @@ int main(int argc, char** argv)
                         draw_floor(&sim_graphics, sim->piso);
                         draw_all_robots(&sim_graphics, sim->robots, sim->piso, sim->robotCount);
                         floorCleaned += simulate(sim, ONE_STEP);
-                        al_rest(0.8);
+                        al_rest(0.08);
 						al_flip_display();
                     }
-                
+					al_rest(5.0);
                 }
                 else
                 {

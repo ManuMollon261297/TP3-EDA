@@ -131,9 +131,9 @@ posType calculate_FloorStart(unsigned int width, unsigned int height) {
 
 void draw_tile(sim_images_t *sim_images, pisoType *piso, unsigned int fila, unsigned int columna) {
 
-	posType floorStart = calculate_FloorStart(piso->height, piso->width);
+	posType floorStart = calculate_FloorStart(piso->width, piso->height);
 	posType baldosaPoint;
-	double pixels = calculate_baldosaPixel(piso->height, piso->width);
+	double pixels = calculate_baldosaPixel(piso->width, piso->height);
 	double sw, sh;
 	sw = al_get_bitmap_width(sim_images->dirtyTile); // Its the same original size for both images
 	sh = sw;
@@ -152,8 +152,8 @@ void draw_tile(sim_images_t *sim_images, pisoType *piso, unsigned int fila, unsi
 
 void draw_floor(sim_graphics_t *sim_graphics, pisoType *piso) {
 
-	for (unsigned int i = 0; i < piso->width; i++) {
-		for (unsigned int j = 0; j < piso->height; j++) {
+	for (unsigned int i = 0; i < piso->height; i++) {
+		for (unsigned int j = 0; j < piso->width; j++) {
 			draw_tile(&(sim_graphics->sim_images), piso, i, j);
 		}
 	}
@@ -161,15 +161,15 @@ void draw_floor(sim_graphics_t *sim_graphics, pisoType *piso) {
 
 void draw_robot(sim_images_t *sim_images, pisoType *piso, robotType *robot) {
 
-	posType floorStart = calculate_FloorStart(piso->height, piso->width);
+	posType floorStart = calculate_FloorStart(piso->width, piso->height);
 	posType robotPoint;
-	double pixels = calculate_baldosaPixel(piso->height, piso->width);
+	double pixels = calculate_baldosaPixel(piso->width, piso->height);
 	double sw, sh;
 	sw = al_get_bitmap_width(sim_images->robotBody);
 	sh = sw;
 
-	if ((((piso->height) - (robot->pos.x))*pixels) < (pixels / 4)) {
-		robotPoint.x = floorStart.x + (((piso->height) - 0.25)*pixels) - (pixels / 4);
+	if ((((piso->width) - (robot->pos.x))*pixels) < (pixels / 4)) {
+		robotPoint.x = floorStart.x + (((piso->width) - 0.25)*pixels) - (pixels / 4);
 	}
 	else if (((robot->pos.x)*pixels) < (pixels / 4)) {
 		robotPoint.x = floorStart.x;
@@ -178,8 +178,8 @@ void draw_robot(sim_images_t *sim_images, pisoType *piso, robotType *robot) {
 		robotPoint.x = floorStart.x + ((robot->pos.x)*pixels) - (pixels / 4);
 	}
 
-	if ((((piso->width) - (robot->pos.y))*pixels) < (pixels / 4)) {
-		robotPoint.y = floorStart.y + (((piso->width) - 0.25)*pixels) - (pixels / 4);
+	if ((((piso->height) - (robot->pos.y))*pixels) < (pixels / 4)) {
+		robotPoint.y = floorStart.y + (((piso->height) - 0.25)*pixels) - (pixels / 4);
 	}
 	else if (((robot->pos.y)*pixels) < (pixels / 4)) {
 		robotPoint.y = floorStart.y;
