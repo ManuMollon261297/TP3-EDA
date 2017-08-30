@@ -21,13 +21,28 @@
     <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sim_graphics.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="simulation.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main_de_prueba.c">
+    <ClCompile Include="sim_graphics.c">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

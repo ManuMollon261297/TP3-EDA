@@ -1,3 +1,4 @@
+
 #ifndef SIMULATION_H
 #define SIMULATION_H
 
@@ -5,6 +6,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
+
+#define ONE_STEP 1
+#define ALL_STEPS 2
 
 // Others
 
@@ -38,4 +42,11 @@ simType * createSim(unsigned int robotCount, unsigned int height, unsigned int w
 
 void destroySim(simType * simulation);
 
-#endif //SIMULATION_H
+void clean_floor(simType * sim, unsigned int * floorCleaned);
+
+void init_arr(double * ptr2arr, unsigned int size);
+
+unsigned int simulate(simType * sim, int steps);
+
+#endif /* SIMULATION_H */
+

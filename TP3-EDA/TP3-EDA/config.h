@@ -1,7 +1,16 @@
+
 #ifndef CONFIG_H
 #define CONFIG_H
 
 #include <stdbool.h>
+
+typedef struct
+{
+	unsigned int mode;
+	unsigned int width;
+	unsigned int height;
+        unsigned int robots_count;
+}paramsType;
 
 typedef struct
 {
@@ -34,4 +43,8 @@ typedef struct
 	unsigned long int tickCount;
 }simType; // estructura de la simulacion
 
-#endif //CONFIG_H
+
+
+
+#endif /* CONFIG_H */
+

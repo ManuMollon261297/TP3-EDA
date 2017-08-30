@@ -1,3 +1,4 @@
+
 #include "simulation.h"
 #include <stdio.h>
 #include <math.h>
@@ -152,3 +153,51 @@ double deg2rad(double angulo_deg)
 	return ((angulo_deg*PI)/180.0);
 }
 
+void clean_floor(simType * sim, unsigned int * floorCleaned) 
+{
+	int i = 0;
+	int fila = 0;
+	int columna = 0;
+	for (i = 0; i < (sim->robotCount); i++)
+	{
+		// columna = floor((sim->robots + i)->pos.x) + 1;
+		// fila = floor((sim->robots + i)->pos.y) + 1;
+		columna = ((int)((sim->robots + i)->pos.x));
+		fila = ((int)((sim->robots + i)->pos.y));
+		if (!getTileFromFloor(sim->piso,fila,columna))
+		{
+			changeTileFromFloor(sim->piso, fila, columna, true);
+			(*floorCleaned)++;
+		}
+	}
+}
+
+void init_arr(double * ptr2arr, unsigned int size)
+{
+	int i = 0;
+	for (i = 0; i < size; i++)
+	{
+		ptr2arr[i] = 0;
+	}
+}
+
+
+unsigned int simulate(simType * sim, int steps)
+{
+	unsigned int tickCount = 0;
+	unsigned int floorCleaned = 0;
+	unsigned int limite = 0;
+	unsigned int *p_ret = NULL;
+	switch(steps)
+	{
+		case ONE_STEP: limite = ONE_STEP;  p_ret = &floorCleaned; break;
+		case ALL_STEPS: limite = (sim->height)*(sim->width); p_ret = &tickCount;
+	}
+	while (floorCleaned < limite)
+	{ 
+		clean_floor(sim,&floorCleaned);
+		moveRobots(sim->robots, sim->height, sim->width, sim->robotCount);
+        tickCount++;   
+	}   
+	return *p_ret;
+}

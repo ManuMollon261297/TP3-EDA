@@ -1,9 +1,10 @@
+
 #include <stdio.h>
 #include "sim_graphics.h"
 #include "simulation.h"
 
-#define DISP_W 1280
-#define DISP_H 720
+#define MODULO(a) ( ( (a >= 0)? a : (a * (-1)) ) )
+
 
 // init_al_hard: initializes allegro display and addons
 int init_al_hard(allegro_hard_t *al_hard);
@@ -42,6 +43,18 @@ int init_al_hard(allegro_hard_t *al_hard) {
 		fprintf(stderr, "failed to initialize image addon !\n");
 		ret = -1;
 	}
+        
+        if (!al_init_primitives_addon()){
+            fprintf(stderr, "failed to initialize primitives addon !\n");
+		ret = -1;
+        }
+        al_init_font_addon();
+        
+        if(!al_init_ttf_addon())
+        {
+            fprintf(stderr, "Failed to initialize True Type Font\n");
+            ret = -1;
+        }
 
 	al_hard->display = al_create_display(DISP_W, DISP_H);
 	if (!(al_hard->display)) {
@@ -66,15 +79,15 @@ ALLEGRO_BITMAP* load_image(const char *image) {
 int load_sim_images(sim_images_t *sim_images) {
 
 	int ret = 1;
-	sim_images->cleanTile = load_image("Images/cleanTile.png");
+	sim_images->cleanTile = load_image("cleanTile.png");
 	if (!(sim_images->cleanTile)) {
 		ret = -1;
 	}
-	sim_images->dirtyTile = load_image("Images/dirtyTile.png");
+	sim_images->dirtyTile = load_image("dirtyTile.png");
 	if (!(sim_images->dirtyTile)) {
 		ret = -1;
 	}
-	sim_images->robotBody = load_image("Images/robot.png");
+	sim_images->robotBody = load_image("robot.png");
 	if (!(sim_images->robotBody)) {
 		ret = -1;
 	}
@@ -194,6 +207,8 @@ void destroy_images(sim_images_t *sim_images) {
 
 void destroy_al_hard(allegro_hard_t *al_hard) {
 	al_destroy_display(al_hard->display);
+        al_shutdown_primitives_addon();
+        al_shutdown_font_addon();
 	//al_destroy_event_queue(al_hard->ev_queue);
 }
 
@@ -201,3 +216,95 @@ void destroy_sim_graphics(sim_graphics_t *sim_graphics) {
 	destroy_al_hard(&(sim_graphics->al_hard));
 	destroy_images(&(sim_graphics->sim_images));
 }
+
+
+void print_histograma_bar(double * results, ejeCartesiano_t * eje, ALLEGRO_COLOR color1, ALLEGRO_COLOR color2, char * font_type, ALLEGRO_COLOR color_font)
+{
+    ALLEGRO_FONT * font = al_load_ttf_font(font_type, FONT_SIZE,0);
+    
+    
+    double x = 0.0, y = 0.0;
+    bool tolerance_reached = false;
+    bool escribir = false;
+    
+    if(eje->xMax > TOLERANCE_FONT_ROBOT)
+    {
+          tolerance_reached = true;  
+    }
+    
+    for (int i = 0; i < eje->xMax; i++)
+    {
+        x = eje->apartamiento_x + (eje->elem_escala_x * (i+1));
+        y = eje->apartamiento_y + (eje->elem_escala_y * (eje->yMax - results[i]));
+        switch(i & 1)
+        {
+            case 1: al_draw_filled_rectangle(x-OFFSET_HISTOGRAMA, y, x+OFFSET_HISTOGRAMA, eje->origenY, color1); break;
+            case 0: al_draw_filled_rectangle(x-OFFSET_HISTOGRAMA, y, x+OFFSET_HISTOGRAMA, eje->origenY, color2);
+        }
+        if(tolerance_reached)
+        {
+            if((i == 0) || (i == 1) || (i == 2) || (i == 3) || ((i + 1) >= eje->xMax))
+            {
+                escribir = true;
+            }
+        }
+        else
+        {
+            escribir = true;
+        }
+        if(escribir)
+        {
+            al_draw_textf(font, color_font, x - OFFSET_HISTOGRAMA, y - (OFFSET_HISTOGRAMA*2), 0, "%.1f", results[i]);
+            escribir = false;
+        }
+        
+    }
+    al_flip_display();
+    
+    al_destroy_font(font);
+}
+
+ejeCartesiano_t create_eje_cartesiano(unsigned int anchoTotal, unsigned int altoTotal, double xMax, double yMax, char * varX, char * varY)
+{
+    ejeCartesiano_t eje;
+    eje.xMax = xMax;
+    eje.yMax = yMax;
+    eje.apartamiento_x = anchoTotal * OFFSET_EJES;
+    eje.apartamiento_y = altoTotal * OFFSET_EJES;
+    eje.long_eje_x = anchoTotal - (2*eje.apartamiento_x);
+    eje.long_eje_y = altoTotal - (2*eje.apartamiento_y);
+    eje.variableX = varX;
+    eje.variableY = varY;
+    eje.elem_escala_x = (eje.long_eje_x)/(MODULO(eje.xMax));
+    eje.elem_escala_y = (eje.long_eje_y)/(MODULO(eje.yMax));
+    eje.grosor = GROSOR_EJE_PRED;
+    eje.numElemX = (eje.long_eje_x / eje.elem_escala_x);
+    eje.numElemY = (eje.long_eje_y / eje.elem_escala_y);
+    eje.origenX = eje.apartamiento_x;
+    eje.origenY = eje.apartamiento_y + eje.long_eje_y;
+    return eje;
+}
+
+void print_eje_cartesiano(ejeCartesiano_t * eje, ALLEGRO_COLOR color, char * font_type)
+{
+    ALLEGRO_FONT * font = al_load_ttf_font(font_type, FONT_SIZE,0);
+    
+    unsigned int x = 0, y = 0;
+    al_draw_line(eje->origenX, eje->apartamiento_y, eje->apartamiento_x, eje->origenY, color, eje->grosor);
+    al_draw_line(eje->origenX, eje->origenY, eje->long_eje_x + eje->origenX, eje->origenY, color, eje->grosor);
+    for (int i = 1; i <= eje->numElemX; i++)
+    {
+        al_draw_line( (eje->origenX + (i * eje->elem_escala_x)), eje->origenY + OFFSET_INDICADOR, (eje->origenX + (i * eje->elem_escala_x)), eje->origenY - OFFSET_INDICADOR, color, eje->grosor );
+        al_draw_textf(font, color, (eje->origenX + (i * eje->elem_escala_x)), eje->origenY + ((OFFSET_INDICADOR)*2), 0, "%d", i);
+    }
+    for (int i = 1; i <= eje->numElemY/SEPARACION_Y; i++)
+    {
+        al_draw_line(eje->origenX + OFFSET_INDICADOR, (eje->apartamiento_y + (i * eje->elem_escala_y*SEPARACION_Y)), eje->origenX - OFFSET_INDICADOR, (eje->apartamiento_y + (i * eje->elem_escala_y*SEPARACION_Y)), color, eje->grosor);
+        
+    }
+    al_draw_textf(font, color, (eje->apartamiento_x + eje->long_eje_x), eje->origenY + (eje->apartamiento_y/4), 0, "%s", eje->variableX);
+    al_draw_textf(font, color, eje->apartamiento_x /2, eje->apartamiento_y, 0, "%s", eje->variableY);
+    
+    al_destroy_font(font);
+}
+
