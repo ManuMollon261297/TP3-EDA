@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     {
         srand((unsigned int)time(NULL));
     
-        paramsType params = {1, 40, 40, 5}; ////////////////
+        paramsType params = {1, 20, 20, 1}; ////////////////
     
         sim_graphics_t sim_graphics;
         if(init_sim_graphics(&sim_graphics))
@@ -46,12 +46,14 @@ int main(int argc, char** argv)
             
                 if (sim != NULL)
                 {
+					draw_floor(&sim_graphics, sim->piso); // First draw
+					draw_all_robots(&sim_graphics, sim->robots, sim->piso, sim->robotCount);
                     while((floorCleaned < (sim->height)*(sim->width)) && (!exit))
                     {
-                        draw_floor(&sim_graphics, sim->piso);
-                        draw_all_robots(&sim_graphics, sim->robots, sim->piso, sim->robotCount);
                         floorCleaned += simulate(sim, ONE_STEP);
-                        al_rest(0.08);
+						draw_floor(&sim_graphics, sim->piso);
+						draw_all_robots(&sim_graphics, sim->robots, sim->piso, sim->robotCount);
+                        al_rest(0.03);
 						al_flip_display();
                     }
 					al_rest(5.0);
