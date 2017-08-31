@@ -44,24 +44,37 @@ int init_al_hard(allegro_hard_t *al_hard) {
 		ret = -1;
 	}
         
-        if (!al_init_primitives_addon()){
-            fprintf(stderr, "failed to initialize primitives addon !\n");
+    if (!al_init_primitives_addon()){
+        fprintf(stderr, "failed to initialize primitives addon !\n");
+	ret = -1;
+    }
+
+    al_init_font_addon();    
+    if(!al_init_ttf_addon())
+    {
+		al_shutdown_primitives_addon();
+        fprintf(stderr, "Failed to initialize Font\n");
+        ret = -1;
+    }
+
+	al_hard->ev_queue = al_create_event_queue();
+	if (!(al_hard->ev_queue)) {
+		al_shutdown_primitives_addon();
+		al_shutdown_font_addon();
+		fprintf(stderr, "failed to create event queue!\n");
 		ret = -1;
-        }
-        al_init_font_addon();
-        
-        if(!al_init_ttf_addon())
-        {
-            fprintf(stderr, "Failed to initialize True Type Font\n");
-            ret = -1;
-        }
+	}
 
 	al_hard->display = al_create_display(DISP_W, DISP_H);
 	if (!(al_hard->display)) {
+		al_shutdown_primitives_addon();
+		al_shutdown_font_addon();
+		al_destroy_event_queue(al_hard->ev_queue);
 		fprintf(stderr, "failed to create display!\n");
 		ret = -1;
 	}
 
+	al_register_event_source(al_hard->ev_queue, al_get_display_event_source(al_hard->display));
 return ret;
 }
 
@@ -79,15 +92,15 @@ ALLEGRO_BITMAP* load_image(const char *image) {
 int load_sim_images(sim_images_t *sim_images) {
 
 	int ret = 1;
-	sim_images->cleanTile = load_image("cleanTile.png");
+	sim_images->cleanTile = load_image("Images/cleanTile.png");
 	if (!(sim_images->cleanTile)) {
 		ret = -1;
 	}
-	sim_images->dirtyTile = load_image("dirtyTile.png");
+	sim_images->dirtyTile = load_image("Images/dirtyTile.png");
 	if (!(sim_images->dirtyTile)) {
 		ret = -1;
 	}
-	sim_images->robotBody = load_image("robot.png");
+	sim_images->robotBody = load_image("Images/robot.png");
 	if (!(sim_images->robotBody)) {
 		ret = -1;
 	}
@@ -206,10 +219,10 @@ void destroy_images(sim_images_t *sim_images) {
 }
 
 void destroy_al_hard(allegro_hard_t *al_hard) {
+	al_destroy_event_queue(al_hard->ev_queue);
 	al_destroy_display(al_hard->display);
-        al_shutdown_primitives_addon();
-        al_shutdown_font_addon();
-	//al_destroy_event_queue(al_hard->ev_queue);
+    al_shutdown_primitives_addon();
+    al_shutdown_font_addon();
 }
 
 void destroy_sim_graphics(sim_graphics_t *sim_graphics) {
@@ -292,12 +305,12 @@ void print_eje_cartesiano(ejeCartesiano_t * eje, ALLEGRO_COLOR color, char * fon
     unsigned int x = 0, y = 0;
     al_draw_line(eje->origenX, eje->apartamiento_y, eje->apartamiento_x, eje->origenY, color, eje->grosor);
     al_draw_line(eje->origenX, eje->origenY, eje->long_eje_x + eje->origenX, eje->origenY, color, eje->grosor);
-    for (int i = 1; i <= eje->numElemX; i++)
+    for (unsigned int i = 1; i <= eje->numElemX; i++)
     {
         al_draw_line( (eje->origenX + (i * eje->elem_escala_x)), eje->origenY + OFFSET_INDICADOR, (eje->origenX + (i * eje->elem_escala_x)), eje->origenY - OFFSET_INDICADOR, color, eje->grosor );
         al_draw_textf(font, color, (eje->origenX + (i * eje->elem_escala_x)), eje->origenY + ((OFFSET_INDICADOR)*2), 0, "%d", i);
     }
-    for (int i = 1; i <= eje->numElemY/SEPARACION_Y; i++)
+    for (unsigned int i = 1; i <= eje->numElemY/SEPARACION_Y; i++)
     {
         al_draw_line(eje->origenX + OFFSET_INDICADOR, (eje->apartamiento_y + (i * eje->elem_escala_y*SEPARACION_Y)), eje->origenX - OFFSET_INDICADOR, (eje->apartamiento_y + (i * eje->elem_escala_y*SEPARACION_Y)), color, eje->grosor);
         

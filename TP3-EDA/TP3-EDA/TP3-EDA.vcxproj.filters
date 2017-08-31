@@ -27,6 +27,9 @@
     <ClInclude Include="lib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="simulation.c">
@@ -44,5 +47,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TP3-EDA.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\cleanTile.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\dirtyTile.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\robot.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

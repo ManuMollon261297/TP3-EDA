@@ -7,8 +7,8 @@
 
 #define SIZE_LOOKUPTABLE 4
 #define AUX_LEN 20
-#define TOPE_ANCHO 5
-#define TOPE_ALTO 5
+#define TOPE_ANCHO 70
+#define TOPE_ALTO 100
 #define TOPE_ROBOTS 50
 #define EOT '\0'
 
@@ -26,13 +26,14 @@ int main(int argc, char** argv)
 {
     paramsType params;
     void * userData = &params;
+	unsigned int disp_state = 0;
     pCallback p2Callback = parseCallback;
 	
-    if(parseCmdLine(argc, argv, p2Callback, userData))
+    if(1)//parseCmdLine(argc, argv, p2Callback, userData)
     {
         srand((unsigned int)time(NULL));
     
-        paramsType params = {1, 20, 20, 1}; ////////////////
+        paramsType params = {1, 20, 20, 2}; ////////////////
     
         sim_graphics_t sim_graphics;
         if(init_sim_graphics(&sim_graphics))
@@ -43,7 +44,7 @@ int main(int argc, char** argv)
 				unsigned int floorCleaned = 0;
                 bool exit = false;
             
-                simType * sim;
+                simType * sim = NULL;
             
                 sim = createSim(params.robots_count, params.height, params.width);
             
@@ -69,6 +70,15 @@ int main(int argc, char** argv)
                     printf("error al crear simulacion\n");
                 }
                 
+				while (!disp_state) {
+					ALLEGRO_EVENT ev;
+					if (al_get_next_event(sim_graphics.al_hard.ev_queue, &ev)) {
+						if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+							disp_state = 1;
+						}
+					}
+				}
+
                 destroy_sim_graphics(&sim_graphics);
             
             
@@ -86,7 +96,7 @@ int main(int argc, char** argv)
                 
 				print_wait_text(FONT_TYPE, DISP_H, DISP_W);
 
-                simType * sim;
+                simType * sim = NULL;
                 
 				init_arr(results, TOPE_ROBOTS);
 				for (r = 0; (r < TOPE_ROBOTS) && (!found); r++)
@@ -118,7 +128,15 @@ int main(int argc, char** argv)
 				print_eje_cartesiano(&eje, al_color_name("white"), FONT_TYPE);
 				print_titulo(sim->width, sim->height, DISP_H, DISP_W, FONT_TYPE);
 				print_histograma_bar(results, &eje, al_color_name("blue"), al_color_name("hotpink"), FONT_TYPE, al_color_name("white"));
-				getchar();
+				
+				while (!disp_state) {
+					ALLEGRO_EVENT ev;
+					if (al_get_next_event(sim_graphics.al_hard.ev_queue, &ev)) {
+						if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+							disp_state = 1;
+						}
+					}
+				}
 			}
 		}
 		else
@@ -209,6 +227,7 @@ int parseCallback(char * key, char * value, void * userData)
             }
         }
     }
+	return ret;
 }
 
 

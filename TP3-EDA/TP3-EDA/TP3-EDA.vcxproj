@@ -89,6 +89,13 @@
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonColor>true</Allegro_AddonColor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -132,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="config.h" />
     <ClInclude Include="lib.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="simulation.h" />
     <ClInclude Include="sim_graphics.h" />
   </ItemGroup>
@@ -143,6 +151,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TP3-EDA.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\cleanTile.png" />
+    <Image Include="Images\dirtyTile.png" />
+    <Image Include="Images\robot.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

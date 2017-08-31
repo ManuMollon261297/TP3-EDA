@@ -183,12 +183,11 @@ void init_arr(double * ptr2arr, unsigned int size)
 unsigned int simulate(simType * sim, unsigned int * tickCount)
 {
 	unsigned int floorCleaned = 0;
-	while (floorCleaned < ONE_STEP)
-	{ 
-		clean_floor(sim,&floorCleaned);
-		moveRobots(sim->robots, sim->height, sim->width, sim->robotCount);
-        (*tickCount)++;   
-	}   
+
+	clean_floor(sim,&floorCleaned);
+	moveRobots(sim->robots, sim->height, sim->width, sim->robotCount);
+    (*tickCount)++;   
+
 	return floorCleaned;
 }
 
