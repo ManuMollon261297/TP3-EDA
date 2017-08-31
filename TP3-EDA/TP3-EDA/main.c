@@ -29,11 +29,9 @@ int main(int argc, char** argv)
 	unsigned int disp_state = 0;
     pCallback p2Callback = parseCallback;
 	
-    if(1)//parseCmdLine(argc, argv, p2Callback, userData)
+    if(parseCmdLine(argc, argv, p2Callback, userData))
     {
         srand((unsigned int)time(NULL));
-    
-        paramsType params = {1, 20, 20, 10}; ////////////////
     
         sim_graphics_t sim_graphics;
         if(init_sim_graphics(&sim_graphics))
