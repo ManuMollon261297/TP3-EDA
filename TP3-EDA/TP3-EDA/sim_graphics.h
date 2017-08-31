@@ -93,5 +93,7 @@ void clear_display(void);
 
 void print_titulo(unsigned int width_baldosa, unsigned int height_baldosa, unsigned int alto, unsigned int ancho, char * font_type);
 
+void print_tick_count(unsigned int tickCount, double height, double width, char * font_type);
+
 #endif /* SIM_GRAPHICS_H */
 
