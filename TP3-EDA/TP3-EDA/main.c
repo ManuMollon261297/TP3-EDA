@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     {
         srand((unsigned int)time(NULL));
     
-        paramsType params = {1, 20, 20, 2}; ////////////////
+        paramsType params = {1, 10, 10, 1}; ////////////////
     
         sim_graphics_t sim_graphics;
         if(init_sim_graphics(&sim_graphics))
@@ -63,7 +63,6 @@ int main(int argc, char** argv)
                     }
 					print_tick_count(tickCount, DISP_H, DISP_W,FONT_TYPE);
 					al_flip_display();
-					al_rest(5.0);
                 }
                 else
                 {
