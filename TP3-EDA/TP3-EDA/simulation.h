@@ -46,7 +46,9 @@ void clean_floor(simType * sim, unsigned int * floorCleaned);
 
 void init_arr(double * ptr2arr, unsigned int size);
 
-unsigned int simulate(simType * sim, int steps);
+unsigned int simulate(simType * sim, unsigned int * tickCount);
+
+unsigned int simulate_quick(simType * sim);
 
 #endif /* SIMULATION_H */
 

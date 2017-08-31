@@ -160,8 +160,6 @@ void clean_floor(simType * sim, unsigned int * floorCleaned)
 	int columna = 0;
 	for (i = 0; i < (sim->robotCount); i++)
 	{
-		// columna = floor((sim->robots + i)->pos.x) + 1;
-		// fila = floor((sim->robots + i)->pos.y) + 1;
 		columna = ((int)((sim->robots + i)->pos.x));
 		fila = ((int)((sim->robots + i)->pos.y));
 		if (!getTileFromFloor(sim->piso,fila,columna))
@@ -182,22 +180,27 @@ void init_arr(double * ptr2arr, unsigned int size)
 }
 
 
-unsigned int simulate(simType * sim, int steps)
+unsigned int simulate(simType * sim, unsigned int * tickCount)
 {
-	unsigned int tickCount = 0;
 	unsigned int floorCleaned = 0;
-	unsigned int limite = 0;
-	unsigned int *p_ret = NULL;
-	switch(steps)
-	{
-		case ONE_STEP: limite = ONE_STEP;  p_ret = &floorCleaned; break;
-		case ALL_STEPS: limite = (sim->height)*(sim->width); p_ret = &tickCount;
-	}
-	while (floorCleaned < limite)
+	while (floorCleaned < ONE_STEP)
 	{ 
 		clean_floor(sim,&floorCleaned);
 		moveRobots(sim->robots, sim->height, sim->width, sim->robotCount);
-        tickCount++;   
+        (*tickCount)++;   
 	}   
-	return *p_ret;
+	return floorCleaned;
+}
+
+unsigned int simulate_quick(simType * sim)
+{
+	unsigned int tickCount = 0;
+	unsigned int floorCleaned = 0;
+	while (floorCleaned < (sim->height)*(sim->width))
+	{
+		clean_floor(sim, &floorCleaned);
+		moveRobots(sim->robots, sim->height, sim->width, sim->robotCount);
+		tickCount++;
+	}
+	return tickCount;
 }

@@ -37,7 +37,8 @@ int main(int argc, char** argv)
         {    
             if (params.mode == 1)
             {
-               unsigned int floorCleaned = 0;
+				unsigned int tickCount = 0;
+				unsigned int floorCleaned = 0;
                 bool exit = false;
             
                 simType * sim;
@@ -48,14 +49,17 @@ int main(int argc, char** argv)
                 {
 					draw_floor(&sim_graphics, sim->piso); // First draw
 					draw_all_robots(&sim_graphics, sim->robots, sim->piso, sim->robotCount);
+					al_flip_display();
                     while((floorCleaned < (sim->height)*(sim->width)) && (!exit))
                     {
-                        floorCleaned += simulate(sim, ONE_STEP);
+                        floorCleaned += simulate(sim,&tickCount);
 						draw_floor(&sim_graphics, sim->piso);
 						draw_all_robots(&sim_graphics, sim->robots, sim->piso, sim->robotCount);
                         al_rest(0.03);
 						al_flip_display();
                     }
+					print_tick_count(tickCount, DISP_H, DISP_W,FONT_TYPE);
+					al_flip_display();
 					al_rest(5.0);
                 }
                 else
@@ -91,7 +95,7 @@ int main(int argc, char** argv)
 						sim = createSim(r + 1, params.height, params.width);
 						if (sim != NULL)
 						{
-							ticks = simulate(sim, ALL_STEPS);
+							ticks = simulate_quick(sim);
 						}
 						else
 						{

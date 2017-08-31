@@ -1,12 +1,5 @@
-﻿  simulation.c
-c:\users\compaq-cq50\source\repos\tp3-eda\tp3-eda\tp3-eda\simulation.c(18): warning C4018: '<': signed/unsigned mismatch
-c:\users\compaq-cq50\source\repos\tp3-eda\tp3-eda\tp3-eda\simulation.c(52): warning C4018: '<': signed/unsigned mismatch
-c:\users\compaq-cq50\source\repos\tp3-eda\tp3-eda\tp3-eda\simulation.c(83): warning C4018: '<': signed/unsigned mismatch
-c:\users\compaq-cq50\source\repos\tp3-eda\tp3-eda\tp3-eda\simulation.c(85): warning C4018: '<': signed/unsigned mismatch
-c:\users\compaq-cq50\source\repos\tp3-eda\tp3-eda\tp3-eda\simulation.c(161): warning C4018: '<': signed/unsigned mismatch
-c:\users\compaq-cq50\source\repos\tp3-eda\tp3-eda\tp3-eda\simulation.c(178): warning C4018: '<': signed/unsigned mismatch
-  main.c
-  Generating Code...
-c:\users\compaq-cq50\source\repos\tp3-eda\tp3-eda\tp3-eda\main.c(200): warning C4716: 'parseCallback': must return a value
-  TP3-EDA.vcxproj -> C:\Users\Compaq-CQ50\source\repos\TP3-EDA\TP3-EDA\Debug\TP3-EDA.exe
-  TP3-EDA.vcxproj -> C:\Users\Compaq-CQ50\source\repos\TP3-EDA\TP3-EDA\Debug\TP3-EDA.pdb (Partial PDB)
+﻿  sim_graphics.c
+c:\users\manuel mollon\source\repos\tp3-eda\tp3-eda\tp3-eda\sim_graphics.c(295): warning C4018: '<=': signed/unsigned mismatch
+c:\users\manuel mollon\source\repos\tp3-eda\tp3-eda\tp3-eda\sim_graphics.c(300): warning C4018: '<=': signed/unsigned mismatch
+  TP3-EDA.vcxproj -> C:\Users\Manuel Mollon\source\repos\TP3-EDA\TP3-EDA\Debug\TP3-EDA.exe
+  TP3-EDA.vcxproj -> C:\Users\Manuel Mollon\source\repos\TP3-EDA\TP3-EDA\Debug\TP3-EDA.pdb (Partial PDB)
