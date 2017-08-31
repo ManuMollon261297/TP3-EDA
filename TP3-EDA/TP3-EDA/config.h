@@ -1,4 +1,6 @@
-
+//// -------------- ////
+//// CONFIG LIBRARY ////
+//// -------------- ////
 #ifndef CONFIG_H
 #define CONFIG_H
 
@@ -10,28 +12,28 @@ typedef struct
 	unsigned int width;
 	unsigned int height;
         unsigned int robots_count;
-}paramsType;
+}paramsType; // Userdata parametros
 
 typedef struct
 {
 	double x;
 	double y;
-}posType; // estructura de coordenadas
+}posType; // Estructura de coordenadas
 
 typedef struct
 {
 	posType pos;
-	double angulo; // 0<angulo<360
-}robotType; //estructura del robot
+	double angulo; // 0 <Angulo < 360
+}robotType; // Estructura del robot
 
-typedef bool tileType;
+typedef bool tileType; // Tipo de dato de baldosa
 
 typedef struct
 {
 	unsigned int width;
 	unsigned int height;
 	tileType * baldosas;
-}pisoType;
+}pisoType; // Estructura de piso
 
 typedef struct
 {
@@ -41,9 +43,7 @@ typedef struct
 	unsigned int width;
 	unsigned int height;
 	unsigned long int tickCount;
-}simType; // estructura de la simulacion
-
-
+}simType; // Estructura de la simulacion
 
 
 #endif /* CONFIG_H */

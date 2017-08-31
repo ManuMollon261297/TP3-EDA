@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "simulation.h"
 #include "sim_graphics.h"
-#include "lib.h"    //parseCmd
+#include "lib.h"    // ParseCmd
 
 #define SIZE_LOOKUPTABLE 4
 #define AUX_LEN 20
@@ -19,8 +19,6 @@
 const char * lookUpTable[SIZE_LOOKUPTABLE] = {"mode", "robots", "width", "height"};
 
 int parseCallback(char * key, char * value, void * userData);
-
-
 
 int main(int argc, char** argv) 
 {

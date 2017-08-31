@@ -1,3 +1,6 @@
+//// --------------------------- ////
+//// SIMULATION GRAPHICS LIBRARY ////
+//// --------------------------- ////
 #ifndef SIM_GRAPHICS_H
 #define SIM_GRAPHICS_H
 
@@ -39,20 +42,20 @@ typedef struct {
 } sim_graphics_t;
 
 typedef struct {
-    unsigned int apartamiento_x;    //margenes
+    unsigned int apartamiento_x;    // Margenes
     unsigned int apartamiento_y;    
-    float xMax;                     //valores maximos
+    float xMax;                     // Valores maximos
     float yMax;
-    float elem_escala_x;            //salto de elemento a elemento
+    float elem_escala_x;            // Salto de elemento a elemento
     float elem_escala_y;
-    unsigned int long_eje_x;        //
+    unsigned int long_eje_x;        
     unsigned int long_eje_y;
-    unsigned int grosor;            //
-    char * variableX;               //nombre de las variables
+    unsigned int grosor;            
+    char * variableX;               // Nombre de las variables
     char * variableY;
-    unsigned int numElemX;          //numero total de elementos
+    unsigned int numElemX;          // Numero total de elementos
     unsigned int numElemY;
-    unsigned int origenX;           //comienzo de los ejes (cruce entre si)
+    unsigned int origenX;           // Origen de coordenadas cartesianas del grafico
     unsigned int origenY;
 }ejeCartesiano_t;
 

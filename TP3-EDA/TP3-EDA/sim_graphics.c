@@ -1,10 +1,8 @@
-
 #include <stdio.h>
 #include "sim_graphics.h"
 #include "simulation.h"
 
 #define MODULO(a) ( ( (a >= 0)? a : (a * (-1)) ) )
-
 
 // init_al_hard: initializes allegro display and addons
 int init_al_hard(allegro_hard_t *al_hard);

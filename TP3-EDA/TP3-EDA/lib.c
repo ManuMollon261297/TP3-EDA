@@ -11,7 +11,7 @@ int parseCmdLine(int argc, char *argv[], pCallback p, void *userData){
 	int opt_and_params = 0;
 
 	while(i < argc){
-		if(*argv[i] == OPTION){ // is option
+		if(*argv[i] == OPTION){ // Is option
 			if((i+1 != argc)&&( *(argv[i]+1) != EOW)&&(*(argv[i]+1) != SPACE)){
 				//printf("%s\n", argv[i]+1);
 				//printf("%s\n\n", argv[i+1]);
@@ -22,16 +22,16 @@ int parseCmdLine(int argc, char *argv[], pCallback p, void *userData){
 				ret = -1;
 			}
 		}
-		else{ // is parameter
+		else{ // Is parameter
 			//printf("%s\n\n", argv[i]);
 			ret = p(NULL, argv[i], userData);
 			i++;
 		}
 
-		if((ret == -1)||(ret == 0)) // any error
+		if((ret == -1)||(ret == 0)) // Any error
 			return ret;
 		else
-			opt_and_params++; // count options and parameters
+			opt_and_params++; // Count options and parameters
 	}
 
 	return opt_and_params;
