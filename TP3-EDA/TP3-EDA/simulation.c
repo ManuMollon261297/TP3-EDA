@@ -164,9 +164,9 @@ void clean_floor(simType * sim, unsigned int * floorCleaned)
 		fila = ((int)((sim->robots + i)->pos.y));
 		if (!getTileFromFloor(sim->piso,fila,columna))
 		{
-			changeTileFromFloor(sim->piso, fila, columna, true);
 			(*floorCleaned)++;
 		}
+		changeTileFromFloor(sim->piso, fila, columna, true);
 	}
 }
 

@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <ctype.h>
 #include "simulation.h"
 #include "sim_graphics.h"
 #include "lib.h"    //parseCmd
 
-
 #define SIZE_LOOKUPTABLE 4
-
+#define AUX_LEN 20
 #define TOPE_ANCHO 5
 #define TOPE_ALTO 5
 #define TOPE_ROBOTS 50
-/*
- * 
- */
+#define EOT '\0'
+
+#define MODE 0
+#define ROBOTS 1
+#define WIDTH_P 2
+#define HEIGHT_P 3
 const char * lookUpTable[SIZE_LOOKUPTABLE] = {"mode", "robots", "width", "height"};
 
 int parseCallback(char * key, char * value, void * userData);
@@ -25,8 +27,8 @@ int main(int argc, char** argv)
     paramsType params;
     void * userData = &params;
     pCallback p2Callback = parseCallback;
-    
-    if(1)//parseCmdLine(argc, argv, p2Callback, userData))
+	
+    if(parseCmdLine(argc, argv, p2Callback, userData))
     {
         srand((unsigned int)time(NULL));
     
@@ -136,21 +138,27 @@ int parseCallback(char * key, char * value, void * userData)
 {
     paramsType * data = userData;
     int ret = 1, value_int = 0, i = 0;        //inicializo sin error
-    char * newKey;
+	char key_aux[AUX_LEN];
     if(key == NULL)
     {
         ret = 0;    //no recibo parametros sin keys, devuelvo error
     }
     else
     {
-        newKey = key; ////////////////////////////
-        for(i = 0; (i < SIZE_LOOKUPTABLE) && strcmp(lookUpTable[i], newKey); i++)
+		for (i = 0; (i < (AUX_LEN - 1)); i++) {
+			key_aux[i] = (char)tolower(key[i]); // Pasamos todo a minusculas
+			if (key[i] == EOT)
+				key_aux[i] = EOT;
+		}
+
+        for(i = 0; (i < SIZE_LOOKUPTABLE) && strcmp(lookUpTable[i], key_aux); i++)
         {
            //nada, solo recorro la lookUpTable 
         }
-        if(i == 0)
+
+        if(i == MODE)
         {
-            value_int = value[0] - '0'; //////////////
+			value_int = atoi(value);
             if((value_int == 1) || (value_int == 2))
             {
                 data->mode = value_int;
@@ -161,9 +169,9 @@ int parseCallback(char * key, char * value, void * userData)
                 ret = 0; //error
             }
         }
-        else if(i == 1)
+        else if(i == ROBOTS)
         {
-            value_int = value[0] - '0'; //////////////
+			value_int = atoi(value);
             if((value_int > 0) && (value_int < TOPE_ROBOTS))  //se restringe el numero de robots
             {
                 data->robots_count = value_int;
@@ -174,9 +182,9 @@ int parseCallback(char * key, char * value, void * userData)
                 ret = 0; //error
             }
         }
-        else if(i == 2)
+        else if(i == WIDTH_P)
         {
-            value_int = value[0] - '0'; /////////////
+			value_int = atoi(value);
             if((value_int > 0) && (value_int < TOPE_ANCHO)) //se restringe el numero de baldosas en ancho
             {
                 data->width = value_int;
@@ -187,10 +195,10 @@ int parseCallback(char * key, char * value, void * userData)
                 ret = 0; //error
             }
         }
-        else if(i == 3)
+        else if(i == HEIGHT_P)
         {
-            value_int = value[0] - '0'; /////////////
-            if((value_int > 0) && (value_int < TOPE_ALTO)) //se restringe el numero de baldosas en ancho
+			value_int = atoi(value);
+            if((value_int > 0) && (value_int < TOPE_ALTO)) //se restringe el numero de baldosas en alto
             {
                 data->height = value_int;
             }
