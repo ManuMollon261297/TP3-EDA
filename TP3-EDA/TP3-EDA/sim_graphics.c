@@ -348,7 +348,7 @@ void print_titulo(unsigned int width_baldosa, unsigned int height_baldosa, unsig
 void print_tick_count(unsigned int tickCount, double height, double width, char * font_type)
 {
 	ALLEGRO_FONT * font = al_load_ttf_font(font_type, FONT_SIZE * 3, 0);
-	ALLEGRO_COLOR  negro = al_map_rgb(0, 0, 0);
+	ALLEGRO_COLOR  negro = al_map_rgb(0, 0, 255);
 	al_draw_textf(font, negro, width /3, height/2, 0, "Total Tick Count: %d", tickCount);
 	al_flip_display();
 	al_destroy_font(font);

@@ -20,13 +20,13 @@ const char * lookUpTable[SIZE_LOOKUPTABLE] = {"mode", "robots", "width", "height
 
 int parseCallback(char * key, char * value, void * userData);
 
-int main(int argc, char** argv) 
+int main(int argc, char *argv[]) 
 {
     paramsType params;
     void * userData = &params;
 	unsigned int disp_state = 0;
     pCallback p2Callback = parseCallback;
-	
+
     if(parseCmdLine(argc, argv, p2Callback, userData))
     {
         srand((unsigned int)time(NULL));
@@ -54,7 +54,7 @@ int main(int argc, char** argv)
                         floorCleaned += simulate(sim,&tickCount);
 						draw_floor(&sim_graphics, sim->piso);
 						draw_all_robots(&sim_graphics, sim->robots, sim->piso, sim->robotCount);
-                        al_rest(0.02);
+                        al_rest(0.03);
 						al_flip_display();
                     }
 					print_tick_count(tickCount, DISP_H, DISP_W,FONT_TYPE);
@@ -70,6 +70,9 @@ int main(int argc, char** argv)
 					if (al_get_next_event(sim_graphics.al_hard.ev_queue, &ev)) {
 						if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 							disp_state = 1;
+						}
+						else {
+							disp_state = 0;
 						}
 					}
 				}
@@ -130,6 +133,9 @@ int main(int argc, char** argv)
 						if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 							disp_state = 1;
 						}
+						else {
+							disp_state = 0;
+						}
 					}
 				}
 			}
@@ -185,7 +191,7 @@ int parseCallback(char * key, char * value, void * userData)
         else if(i == ROBOTS)
         {
 			value_int = atoi(value);
-            if((value_int > 0) && (value_int < TOPE_ROBOTS))  //se restringe el numero de robots
+            if((value_int > 0) && (value_int <= TOPE_ROBOTS))  //se restringe el numero de robots
             {
                 data->robots_count = value_int;
             }
@@ -198,7 +204,7 @@ int parseCallback(char * key, char * value, void * userData)
         else if(i == WIDTH_P)
         {
 			value_int = atoi(value);
-            if((value_int > 0) && (value_int < TOPE_ANCHO)) //se restringe el numero de baldosas en ancho
+            if((value_int > 0) && (value_int <= TOPE_ANCHO)) //se restringe el numero de baldosas en ancho
             {
                 data->width = value_int;
             }
@@ -211,7 +217,7 @@ int parseCallback(char * key, char * value, void * userData)
         else if(i == HEIGHT_P)
         {
 			value_int = atoi(value);
-            if((value_int > 0) && (value_int < TOPE_ALTO)) //se restringe el numero de baldosas en alto
+            if((value_int > 0) && (value_int <= TOPE_ALTO)) //se restringe el numero de baldosas en alto
             {
                 data->height = value_int;
             }
